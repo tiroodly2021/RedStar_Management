@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:redstar_management/pages/checkout/checkout.page.dart';
+import 'package:redstar_management/pages/order/order_confirmation.page.dart';
+import 'package:redstar_management/pages/selectpayment/select_payment.page.dart';
 
 import '../models/models.dart';
 import '../pages/pages.dart';
@@ -35,6 +38,18 @@ class AppRouter {
       // ignore: no_duplicate_case_values
       case UserPage.routeName:
         return UserPage.route();
+
+      case SplashPage.routeName:
+        return SplashPage.route();
+
+      case CheckoutPage.routeName:
+        return CheckoutPage.route();
+
+      case OrderConfirmationPage.routeName:
+        return OrderConfirmationPage.route();
+
+      case SelectPaymentPage.routeName:
+        return SelectPaymentPage.route();
 
       default:
         return _errorRoute();

@@ -37,7 +37,8 @@ class CatalogPage extends StatelessWidget {
         product: Product.products[0],
       ) */
       ,
-      bottomNavigationBar: const CustomBottomAppBar(),
+      bottomNavigationBar:
+          CustomNavBar(page: routeName) /* const CustomBottomAppBar() */,
     );
   }
 }

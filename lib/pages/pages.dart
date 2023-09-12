@@ -4,3 +4,6 @@ export './catalog/catalog.page.dart';
 export './wishlist/wishlist.page.dart';
 export './user/user.page.dart';
 export './product/product.page.dart';
+export './splash/splash.page.dart';
+export './order/order_confirmation.page.dart';
+export './order/order_summary_product_card.dart';

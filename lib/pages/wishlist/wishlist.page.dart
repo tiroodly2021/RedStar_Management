@@ -21,6 +21,7 @@ class WishListPage extends StatelessWidget {
       appBar: const CustomAppBar(title: "Your Wishlist"),
       body: BlocBuilder<WishlistBloc, WishlistState>(
         builder: (context, state) {
+          print("Wishlist state is: " + state.toString());
           if (state is WishlistLoading) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -58,7 +59,8 @@ class WishListPage extends StatelessWidget {
           }
         },
       ),
-      bottomNavigationBar: const CustomBottomAppBar(),
+      bottomNavigationBar:
+          CustomNavBar(page: routeName) /* const CustomBottomAppBar() */,
     );
   }
 }

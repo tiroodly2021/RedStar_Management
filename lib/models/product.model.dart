@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:redstar_management/models/Category.model.dart';
 
@@ -20,6 +21,18 @@ class Product extends Equatable {
   @override
   List<Object?> get props =>
       [name, category, imageUrl, price, isRecommended, isPopular, products];
+
+  static Product fromSnapShot(DocumentSnapshot snapshot) {
+    Product products = Product(
+        name: snapshot['name'],
+        category: snapshot["category"],
+        imageUrl: snapshot["imageUrl"],
+        price: snapshot["price"],
+        isRecommended: snapshot["isRecommended"],
+        isPopular: snapshot["isPopular"]);
+
+    return products;
+  }
 
   static final List<Product> products = [
     Product(

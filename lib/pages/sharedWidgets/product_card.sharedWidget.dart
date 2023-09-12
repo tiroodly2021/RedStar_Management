@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../bloc/cart/cart_bloc.dart';
 import '../../models/models.dart';
 
 class ProductCard extends StatelessWidget {
@@ -25,13 +27,30 @@ class ProductCard extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            width: MediaQuery.of(context).size.width / widthFactor,
-            height: 150,
-            child: Image.network(
-              product.imageUrl,
-              fit: BoxFit.cover,
-            ),
-          ),
+              width: MediaQuery.of(context).size.width / widthFactor,
+              height: 150,
+              child: Image.network(product.imageUrl, fit: BoxFit.cover,
+                  loadingBuilder: (ctx, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                    ),
+                  );
+                }
+              }, errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                print(exception.toString());
+                // Appropriate logging or analytics, e.g.
+                // myAnalytics.recordError(
+                //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
+                //   exception,
+                //   stackTrace,
+                // );
+                return const Text('ð¢');
+              })),
           Positioned(
             top: 60,
             left: leftPosition,
@@ -50,7 +69,8 @@ class ProductCard extends StatelessWidget {
               decoration: const BoxDecoration(color: Colors.black),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Row(
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
                   children: [
                     Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -71,11 +91,25 @@ class ProductCard extends StatelessWidget {
                                 .copyWith(color: Colors.white),
                           )
                         ]),
-                    Expanded(
-                      child: IconButton(
-                          onPressed: () {},
-                          color: Colors.white,
-                          icon: const Icon(Icons.add_circle)),
+                    BlocBuilder<CartBloc, CartState>(
+                      builder: (context, state) {
+                        if (state is CartLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (state is CartLoaded) {
+                          return IconButton(
+                              onPressed: () {
+                                context
+                                    .read<CartBloc>()
+                                    .add(CartProductAdded(product));
+                              },
+                              color: Colors.white,
+                              icon: const Icon(Icons.add_circle));
+                        } else {
+                          return const Text("Something went wrong");
+                        }
+                      },
                     ),
                     isWishList
                         ? Expanded(

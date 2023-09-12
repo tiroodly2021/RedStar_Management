@@ -5,3 +5,7 @@ export './sharedWidgets/section_title.sharedWidget.dart';
 export './sharedWidgets/product_card.sharedWidget.dart';
 export './sharedWidgets/product_carousel.sharedWidget.dart';
 export './sharedWidgets/list_not_found.sharedWidgets.dart';
+export './sharedWidgets/cart_product_card.sharedWidget.dart';
+export './sharedWidgets/custom.navbar.sharedWidgets.dart';
+export './sharedWidgets/order_summary.sharedWidget.dart';
+export './sharedWidgets/google_pay.dart';

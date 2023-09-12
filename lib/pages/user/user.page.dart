@@ -13,10 +13,11 @@ class UserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       appBar: CustomAppBar(title: "User"),
       body: Center(child: Text("User")),
-      bottomNavigationBar: CustomBottomAppBar(),
+      bottomNavigationBar:
+          CustomNavBar(page: routeName) /* CustomBottomAppBar() */,
     );
   }
 }

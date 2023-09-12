@@ -25,7 +25,28 @@ class HeroCarouselCard extends StatelessWidget {
                 Image.network(
                     (product == null) ? category!.imageUrl : product!.imageUrl,
                     fit: BoxFit.cover,
-                    width: 1000.0),
+                    width: 1000.0,
+                    loadingBuilder: (ctx, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                      ),
+                    );
+                  }
+                }, errorBuilder: (BuildContext context, Object exception,
+                        StackTrace? stackTrace) {
+                  print(exception.toString());
+                  // Appropriate logging or analytics, e.g.
+                  // myAnalytics.recordError(
+                  //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
+                  //   exception,
+                  //   stackTrace,
+                  // );
+                  return const Text('ð¢');
+                }),
                 Positioned(
                   bottom: 0.0,
                   left: 0.0,
