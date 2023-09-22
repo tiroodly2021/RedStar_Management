@@ -38,6 +38,12 @@ dependencies:
 
   firebase_core: 
   cloud_firestore: ^4.4.2
+  hive:
+  hive_flutter:
+
+  hive_generator:
+  build_runner:
+  rflutter_alert: ^1.0.3
 
 
 

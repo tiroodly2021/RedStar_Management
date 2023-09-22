@@ -106,9 +106,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_paystack_client/flutter_paystack_client.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:redstar_management/bloc/cart/cart_bloc.dart';
 import 'package:redstar_management/bloc/category/category_bloc.dart';
 import 'package:redstar_management/bloc/checkout/checkout_bloc.dart';
+import 'package:redstar_management/bloc/order/order_bloc.dart';
 import 'package:redstar_management/bloc/payment/payment_bloc.dart';
 import 'package:redstar_management/bloc/wishlist/wishlist_bloc.dart';
 import 'package:redstar_management/config/app_router.dart';
@@ -119,6 +121,8 @@ import 'package:redstar_management/pages/checkout/checkout.page.dart';
 import 'package:redstar_management/pages/order/order_confirmation.page.dart';
 import 'package:redstar_management/repositories/categories/category.repositories.dart';
 import 'package:redstar_management/repositories/checkout/checkout.repositories.dart';
+import 'package:redstar_management/repositories/local_storage/local_storage_repository.dart';
+import 'package:redstar_management/repositories/repositories.dart';
 import "./pages/pages.dart";
 import 'bloc/product/product_bloc.dart';
 import 'repositories/products/product.repositories.dart';
@@ -133,6 +137,8 @@ Future<void> main() async {
   );
 
   await PaystackClient.initialize("paystackPublicKey");
+  await Hive.initFlutter();
+  Hive.registerAdapter(ProductAdapter());
 
   runApp(const MyApp());
 }
@@ -146,7 +152,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => WishlistBloc()..add(StartWishlist()),
+          create: (context) =>
+              WishlistBloc(localStorageRepository: LocalStorageRepository())
+                ..add(StartWishlist()),
         ),
         BlocProvider(
           create: (context) => CartBloc()..add(CartStarted()),
@@ -161,11 +169,14 @@ class MyApp extends StatelessWidget {
                   ..add(LoadProducts())),
         BlocProvider(
             create: (context) => PaymentBloc()..add(LoadPaymentMethodEvent())),
+        // BlocProvider(create: (context) => OrderBloc(OrderRepository())),
         BlocProvider(
             create: (context) => CheckoutBloc(
                 cartBloc: context.read<CartBloc>(),
                 paymentBloc: context.read<PaymentBloc>(),
-                checkoutRepository: CheckoutRepository())),
+                //    orderBloc: context.read<OrderBloc>(),
+                checkoutRepository: CheckoutRepository(),
+                orderRepository: OrderRepository())),
       ],
       child: MaterialApp(
           title: 'Flutter Demo',

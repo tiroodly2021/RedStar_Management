@@ -1,15 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:redstar_management/bloc/checkout/checkout_bloc.dart';
+import 'package:redstar_management/bloc/order/order_bloc.dart';
+import 'package:redstar_management/helpers/var_pass.dart';
+import 'package:redstar_management/pages/google_simulation/google_simulation.dart';
 
 import '../../models/models.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GooglePay extends StatelessWidget {
-  final String total;
-  final List<Product> products;
-  GooglePay({Key? key, required this.products, required this.total})
+  GooglePay(
+      {Key? key,
+      required this.products,
+      required this.total,
+      required this.checkout,
+      required this.order})
       : super(key: key);
+
+  final Checkout checkout;
+  final Order order;
+  final List<Product> products;
+  final String total;
+  TextEditingController txtEditController = TextEditingController();
 
   void onGooglePaymentResult(paymentResult) {
     debugPrint(paymentResult.toString());
+  }
+
+  _openPopup(context, Checkout checkout) {
+    Alert(
+        context: context,
+        title: "Enter Card Number",
+        content: Column(
+          children: <Widget>[
+            TextField(
+              controller: txtEditController,
+              decoration: const InputDecoration(
+                //icon: Icon(Icons.account_circle),
+                labelText: 'Card Number',
+              ),
+              onChanged: (value) {},
+            ),
+            const SizedBox(height: 4),
+          ],
+        ),
+        buttons: [
+          DialogButton(
+            color: Colors.black,
+            height: 50,
+            onPressed: () {
+              print("printable value is: " + txtEditController.text);
+              //Navigator.pop(context);
+            },
+            child: const Text(
+              "Save",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          )
+        ]).show();
   }
 
   @override
@@ -33,7 +81,19 @@ class GooglePay extends StatelessWidget {
         height: 200,
         child: Center(
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              /*  Navigator.pushNamed(context, GoogleSimulationPage.routeName,
+                  arguments: checkout.address); */
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                //  print(checkout);
+                // print(order);
+
+                return GoogleSimulationPage(
+                  order: order,
+                  checkout: checkout,
+                );
+              }));
+            },
             style: ElevatedButton.styleFrom(
                 primary: Colors.white,
                 minimumSize: Size(MediaQuery.of(context).size.width - 20, 40)),

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -248,7 +249,21 @@ class OrderNowNavBar extends StatelessWidget {
               switch (state2.paymentMethod) {
                 case PaymentMethod.google_pay:
                   return GooglePay(
-                      products: state2.products!, total: state2.total!);
+                      products: state2.products!,
+                      total: state2.total!,
+                      checkout: state2.checkout,
+                      order: Order(
+                          customerId: Random().nextInt(1000),
+                          productIds: state2.products!
+                              .map((product) => product.id)
+                              .toList(),
+                          subtotal: state2.subtotal,
+                          total: state2.total,
+                          deliveryFee: state2.deliveryFee,
+                          isAccepted: false,
+                          isCancelled: false,
+                          isDelivered: false,
+                          createdAt: DateTime.now()));
                 case PaymentMethod.paystack:
                   return PayStack(onchanged: () async {
                     final charge = Charge()

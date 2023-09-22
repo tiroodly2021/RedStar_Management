@@ -22,8 +22,8 @@ class HeroCarouselCard extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(5.0)),
             child: Stack(
               children: <Widget>[
-                Image.network(
-                    (product == null) ? category!.imageUrl : product!.imageUrl,
+                /*      Image.network(
+                    "assets/images/no_image.jpg" /*  (product == null) ? category!.imageUrl : product!.imageUrl */,
                     fit: BoxFit.cover,
                     width: 1000.0,
                     loadingBuilder: (ctx, child, loadingProgress) {
@@ -39,14 +39,9 @@ class HeroCarouselCard extends StatelessWidget {
                 }, errorBuilder: (BuildContext context, Object exception,
                         StackTrace? stackTrace) {
                   print(exception.toString());
-                  // Appropriate logging or analytics, e.g.
-                  // myAnalytics.recordError(
-                  //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
-                  //   exception,
-                  //   stackTrace,
-                  // );
+               
                   return const Text('ð¢');
-                }),
+                }), */
                 Positioned(
                   bottom: 0.0,
                   left: 0.0,

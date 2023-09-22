@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:redstar_management/pages/checkout/checkout.page.dart';
+import 'package:redstar_management/pages/google_simulation/google_simulation.dart';
 import 'package:redstar_management/pages/order/order_confirmation.page.dart';
 import 'package:redstar_management/pages/selectpayment/select_payment.page.dart';
 
@@ -50,6 +51,9 @@ class AppRouter {
 
       case SelectPaymentPage.routeName:
         return SelectPaymentPage.route();
+
+      case GoogleSimulationPage.routeName:
+        return GoogleSimulationPage.route();
 
       default:
         return _errorRoute();

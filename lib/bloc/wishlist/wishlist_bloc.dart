@@ -3,13 +3,18 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:redstar_management/models/models.dart';
+import 'package:redstar_management/repositories/repositories.dart';
 
 part 'wishlist_event.dart';
 part 'wishlist_state.dart';
 
 class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
-  WishlistBloc() : super(WishlistLoading()) {
+  LocalStorageRepository _localStorageRepository;
+  WishlistBloc({required LocalStorageRepository localStorageRepository})
+      : _localStorageRepository = localStorageRepository,
+        super(WishlistLoading()) {
     on(_onStartWishlist);
     on(_onAddWishlistProduct);
     on(_onRemoveWishlistProduct);
@@ -74,7 +79,10 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
 
     emit(WishlistLoading());
     try {
-      emit(const WishlistLoaded());
+      Box box = await _localStorageRepository.openBox();
+
+      List<Product> products = _localStorageRepository.getWishlist(box);
+      emit(WishlistLoaded(wishlist: Wishlist(products: products)));
     } catch (e) {
       emit(WishlistError(errorMessage: e.toString()));
     }
@@ -86,6 +94,9 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
 
     if (state is WishlistLoaded) {
       try {
+        Box box = await _localStorageRepository.openBox();
+        _localStorageRepository.addProductToWishlist(box, event.product);
+
         emit(WishlistLoaded(
             wishlist: Wishlist(
                 products: List.from((state as WishlistLoaded).wishlist.products)
@@ -102,6 +113,9 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
 
     if (state is WishlistLoaded) {
       try {
+        Box box = await _localStorageRepository.openBox();
+        _localStorageRepository.RemoveProductToWishlist(box, event.product);
+
         emit(WishlistLoaded(
             wishlist: Wishlist(
                 products: List.from((state as WishlistLoaded).wishlist.products)

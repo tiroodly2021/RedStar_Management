@@ -16,30 +16,29 @@ class OrderSummaryProductCard extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Row(
         children: [
-          Image.network(product.imageUrl,
-              // fit: BoxFit.cover,
-              height: 80,
-              width: 100, loadingBuilder: (ctx, child, loadingProgress) {
-            if (loadingProgress == null) {
-              return child;
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
-                ),
-              );
-            }
-          }, errorBuilder: (BuildContext context, Object exception,
-                  StackTrace? stackTrace) {
-            print(exception.toString());
-            // Appropriate logging or analytics, e.g.
-            // myAnalytics.recordError(
-            //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
-            //   exception,
-            //   stackTrace,
-            // );
-            return const Text('ð¢');
-          }),
+          Container()
+          /* product.imageUrl == null
+              ? Container()
+              : Image.network(product.imageUrl!,
+                
+                  height: 80,
+                  width: 100, loadingBuilder: (ctx, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                      ),
+                    );
+                  }
+                }, errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                  print(exception.toString());
+
+                  return const Text('ð¢');
+                }) ,*/
+          ,
           const SizedBox(
             width: 10,
           ),

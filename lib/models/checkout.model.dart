@@ -12,6 +12,7 @@ class Checkout extends Equatable {
   final String? subtotal;
   final String? deliveryFee;
   final String? total;
+  final Order? order;
 
   const Checkout(
       {required this.fullName,
@@ -23,7 +24,8 @@ class Checkout extends Equatable {
       required this.products,
       required this.subtotal,
       required this.total,
-      required this.zipCode});
+      required this.zipCode,
+      this.order});
 
   @override
   List<Object?> get props => [
@@ -37,6 +39,7 @@ class Checkout extends Equatable {
         subtotal,
         total,
         zipCode,
+        order
       ];
 
   Map<String, Object> toDocument() {

@@ -29,28 +29,29 @@ class ProductCard extends StatelessWidget {
           Container(
               width: MediaQuery.of(context).size.width / widthFactor,
               height: 150,
-              child: Image.network(product.imageUrl, fit: BoxFit.cover,
-                  loadingBuilder: (ctx, child, loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
-                    ),
-                  );
-                }
-              }, errorBuilder: (BuildContext context, Object exception,
-                      StackTrace? stackTrace) {
-                print(exception.toString());
-                // Appropriate logging or analytics, e.g.
-                // myAnalytics.recordError(
-                //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
-                //   exception,
-                //   stackTrace,
-                // );
-                return const Text('ð¢');
-              })),
+              child:
+                  Container() /* product.imageUrl == null
+                  ? Container()
+                  : Image.network(product.imageUrl!, fit: BoxFit.cover,
+                      loadingBuilder: (ctx, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.red),
+                          ),
+                        );
+                      }
+                    }, errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                      print(exception.toString());
+                     
+                      return const Text('ð¢');
+                    }) */
+
+              ),
           Positioned(
             top: 60,
             left: leftPosition,
